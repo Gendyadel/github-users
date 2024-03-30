@@ -1,0 +1,9 @@
+<form class="input-group" [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+  <input
+    type="search"
+    class="form-control"
+    formControlName="searchTerm"
+    placeholder="Search GitHub User"
+  />
+  <button class="btn btn-primary btn-block" type="submit">Search</button>
+</form>
