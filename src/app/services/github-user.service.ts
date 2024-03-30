@@ -16,28 +16,33 @@ export class GithubUserService {
    * @param perPage - optional number of users per page, default is 10
    * @returns {Observable<User[]>} an observable of users list 
    */
-  searchUsers(searchTerm: string, perPage: number = 10): Observable<User[]> {
+  searchUsers(searchTerm: string, includeDetails: boolean, perPage: number = 10): Observable<User[]> {
     const url = `${this.BASE_URL}?q=${searchTerm}&per_page=${perPage}`;
-
-    return this.http.get<SearchResponse>(url).pipe(
-      switchMap(response => {
-        let users = response.items;
-        // Check if no users are found
-        if (response.total_count === 0) {
-          // return empty observable if no users found
-          return of([]);
-        }
-        // Create an array of observables to fetch details for each user
-        const requests: Observable<User>[] = users.map(user => {
-          // Fetch user details for each user and then merge them with the original user object
-          return this.getUserDetails(user.login).pipe(
-            map(details => ({ ...user, ...details }))
-          );
-        });
-        // Combine all observables into a single observable
-        return forkJoin(requests);
-      })
-    );
+    if (!includeDetails) {
+      return this.http.get<SearchResponse>(url).pipe(
+        map(response => response.items)
+      );
+    } else {
+      return this.http.get<SearchResponse>(url).pipe(
+        switchMap(response => {
+          let users = response.items;
+          // Check if no users are found
+          if (response.total_count === 0) {
+            // return empty observable if no users found
+            return of([]);
+          }
+          // Create an array of observables to fetch details for each user
+          const requests: Observable<User>[] = users.map(user => {
+            // Fetch user details for each user and then merge them with the original user object
+            return this.getUserDetails(user.login).pipe(
+              map(details => ({ ...user, ...details }))
+            );
+          });
+          // Combine all observables into a single observable
+          return forkJoin(requests);
+        })
+      );
+    }
   }
 
   /**

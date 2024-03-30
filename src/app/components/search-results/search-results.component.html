@@ -25,16 +25,21 @@
             {{ user.bio }}
           </p>
           <p class="card-text">
+            @if (user.following || user.followers) {
             <small class="text-body-secondary me-3"
               >Following: <em>{{ user.following }}</em></small
             >
             <small class="text-body-secondary"
               >Followers: <em>{{ user.followers }}</em></small
             >
+            }
+
             <a
               [href]="user.html_url"
               target="_blank"
-              class="btn btn-primary btn-sm mx-5"
+              class="btn btn-primary btn-sm {{
+                user.following || user.followers ? 'mx-5' : ''
+              }}"
               >View Profile</a
             >
           </p>

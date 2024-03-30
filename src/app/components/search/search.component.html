@@ -5,5 +5,17 @@
     formControlName="searchTerm"
     placeholder="Search GitHub User"
   />
-  <button class="btn btn-primary btn-block" type="submit">Search</button>
+  <div class="input-group-append">
+    <div class="input-group-text">
+      <input
+        type="checkbox"
+        id="includeDetails"
+        formControlName="includeDetails"
+      />
+      <label for="includeDetails" class="form-check-label mx-1"
+        >Include details</label
+      >
+    </div>
+  </div>
+  <button class="btn btn-primary" type="submit">Search</button>
 </form>

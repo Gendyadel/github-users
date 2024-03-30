@@ -4,9 +4,10 @@ import { initialState } from "../search.state";
 
 export const searchReducer = createReducer(
     initialState,
-    on(SearchActions.updateSearchTerm, (state, { searchTerm }) => ({
+    on(SearchActions.updateSearchTerm, (state, { searchTerm, includeDetails }) => ({
         ...state,
         searchTerm,
+        includeDetails,
         loading: true,
     })),
 
@@ -18,6 +19,7 @@ export const searchReducer = createReducer(
 
     on(SearchActions.loadUsersError, (state) => ({
         ...state,
-        loading: false
+        loading: false,
+        includeDetails: false,
     }))
 );

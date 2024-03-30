@@ -10,11 +10,8 @@ export class SearchEffects {
     loadUsers$ = createEffect(() => this.actions$.pipe(
         ofType(SearchActions.updateSearchTerm),
         switchMap((action) => {
-            return this.userService.searchUsers(action.searchTerm).pipe(
-                map((users) => {
-                    console.log(users);
-                    return SearchActions.loadUsersSuccess({ users })
-                }),
+            return this.userService.searchUsers(action.searchTerm, action.includeDetails).pipe(
+                map((users) => SearchActions.loadUsersSuccess({ users })),
                 catchError(() => of(SearchActions.loadUsersError()))
             )
         })

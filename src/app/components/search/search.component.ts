@@ -19,7 +19,8 @@ export class SearchComponent implements OnDestroy {
   constructor(private store: Store, private user: GithubUserService
   ) {
     this.searchForm = new FormGroup({
-      searchTerm: new FormControl('')
+      searchTerm: new FormControl(''),
+      includeDetails: new FormControl(false),
     });
     this.formValueSubscription = this.searchForm.valueChanges
       .pipe(
@@ -33,7 +34,8 @@ export class SearchComponent implements OnDestroy {
 
   onSubmit() {
     const searchTerm = this.searchForm.value.searchTerm;
-    this.store.dispatch(updateSearchTerm({ searchTerm }));
+    const includeDetails = this.searchForm.value.includeDetails;
+    this.store.dispatch(updateSearchTerm({ searchTerm , includeDetails}));
   }
 
   ngOnDestroy() {

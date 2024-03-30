@@ -3,7 +3,7 @@ import { User } from "../../models/user.model";
 
 export const updateSearchTerm = createAction(
     '[Search] Update Search Term',
-    props<{ searchTerm: string }>()
+    props<{ searchTerm: string, includeDetails: boolean }>()
 )
 
 export const loadUsersSuccess = createAction(
